@@ -1,79 +1,76 @@
-import React, { Component } from 'react';
-import { Media } from 'reactstrap';
-// 
+import React, { Component } from "react";
+import {
+    Card,
+    CardImg,
+    CardBody,
+    CardTitle,
+    Button,
+} from "reactstrap";
+import Description from '../components/descComponent'
+
 class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dishes: [
-                {
-                    id: 0,
-                    name: 'Uthappizza',
-                    image: 'assets/images/uthappizza.png',
-                    category: 'mains',
-                    label: 'Hot',
-                    price: '4.99',
-                    description: 'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.'
-                },
-                {
-                    id: 1,
-                    name: 'Zucchipakoda',
-                    image: 'assets/images/zucchipakoda.png',
-                    category: 'appetizer',
-                    label: '',
-                    price: '1.99',
-                    description: 'Deep fried Zucchini coated with mildly spiced Chickpea flour batter accompanied with a sweet-tangy tamarind sauce'
-                },
-                {
-                    id: 2,
-                    name: 'Vadonut',
-                    image: 'assets/images/vadonut.png',
-                    category: 'appetizer',
-                    label: 'New',
-                    price: '1.99',
-                    description: 'A quintessential ConFusion experience, is it a vada or is it a donut?'
-                },
-                {
-                    id: 3,
-                    name: 'ElaiCheese Cake',
-                    image: 'assets/images/elaicheesecake.png',
-                    category: 'dessert',
-                    label: '',
-                    price: '2.99',
-                    description: 'A delectable, semi-sweet New York Style Cheese Cake, with Graham cracker crust and spiced with Indian cardamoms'
-                }
-            ],
+            selectedDish: null,
         };
     }
 
+    onSelectDish(dish) {
+        this.setState({ selectedDish: dish });
+    }
+
+    // renderDish(dish) {
+    //     if (dish != null) {
+    //         return (
+    //             <div className="col-12 col-md-5 m-2">
+    //                 <Card>
+    //                     <CardImg top src={dish.image} alt={dish.name} />
+    //                     <CardBody>
+    //                         <CardTitle>
+    //                             <h3>
+    //                                 {dish.name}
+    //                             </h3>
+    //                         </CardTitle>
+    //                         <CardText>{dish.description}</CardText>
+    //                     </CardBody>
+    //                 </Card>
+    //             </div>
+
+    //         );
+    //     } else {
+    //         return <div></div>;
+    //     }
+    // }
+
     render() {
-        const menu = this.state.dishes.map((dish) => {
+        const menu = this.props.dishes.map((dish) => {
             return (
-                <div key={dish.id} className="col-12 mt-5">
+                <div key={dish.id} className="col-12 col-md-5 m-2">
+                    <Card>
+                        <CardImg src={dish.image} alt={dish.name} />
+                        <CardBody>
+                            <CardTitle>
+                                <h2>{dish.name}</h2>
+                            </CardTitle>
 
-                    <div className="d-flex">
-                        <div className="flex-shrink-0 ">
-                            <img src={dish.image} alt={dish.name} />
-                        </div>
-
-                        <div className="flex-grow-1 ms-3 ml-5">
-                            <h2>
-                                {dish.name}
-                            </h2>
-                            {dish.description}
-                        </div>
-                    </div>
+                            <Button
+                                onClick={() => {
+                                    this.onSelectDish(dish);
+                                }}
+                            >
+                                Show Details
+                            </Button>
+                        </CardBody>
+                    </Card>
                 </div>
             );
         });
 
         return (
             <div className="container">
-                <div className="row">
-                    <Media list>
-                        {menu}
-                    </Media>
-                </div>
+                <div className="row">{menu}</div>                
+                <Description selectedDish={this.state.selectedDish}/>
             </div>
         );
     }
