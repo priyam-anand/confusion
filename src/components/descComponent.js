@@ -9,21 +9,18 @@ import {
 
 class Description extends Component {
 
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
     render() {
-        console.log(this.props.selectedDish)
         if (this.props.selectedDish == null) {
             return (
                 <div></div>
             )
         }
         else {
-
-            console.log(this.props.selectedDish.id);
-            const comment=this.props.selectedDish.comments.map((comm)=>{
-                return(
+            const comment = this.props.selectedDish.comments.map((comm) => {
+                return (
                     <div key={comm.id}>
                         -- <span>{comm.author}</span> Rated us <span>{comm.rating}</span>/5 on <span>{comm.date}</span> and said
                         <p>
@@ -34,27 +31,29 @@ class Description extends Component {
             });
 
             return (
-                <div className="row">
-                    <div key={this.props.selectedDish.id} className="col-12 col-md-5 m-2">
-                        <Card>
-                            <CardImg src={this.props.selectedDish.image} alt={this.props.selectedDish.name} />
-                            <CardBody>
-                                <CardTitle>
-                                    <h2>{this.props.selectedDish.name}</h2>
-                                </CardTitle>
+                <div className='container'>
+                    <div className="row">
+                        <div key={this.props.selectedDish.id} className="col-12 col-md-5 m-2">
+                            <Card>
+                                <CardImg src={this.props.selectedDish.image} alt={this.props.selectedDish.name} />
+                                <CardBody>
+                                    <CardTitle>
+                                        <h2>{this.props.selectedDish.name}</h2>
+                                    </CardTitle>
 
-                                <CardText>
-                                    {this.props.selectedDish.description}
-                                </CardText>
-                            </CardBody>
-                        </Card>
-                        
-                    </div>
-                    <div className="col-12 col-md-5 m-2">
-                        <h2 className="my-3">
-                            Feed Back of our product
+                                    <CardText>
+                                        {this.props.selectedDish.description}
+                                    </CardText>
+                                </CardBody>
+                            </Card>
+
+                        </div>
+                        <div className="col-12 col-md-5 m-2">
+                            <h2 className="my-3">
+                                Feed Back of our product
                         </h2>
-                        {comment}
+                            {comment}
+                        </div>
                     </div>
                 </div>
             );
