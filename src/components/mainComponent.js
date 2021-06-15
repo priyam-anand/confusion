@@ -1,11 +1,16 @@
 import Menu from "./menuComponent";
-import Description from './descComponent'
+// import Description from './descComponent'
 import { Component } from "react";
 import Header from './headerComponent';
 import Footer from './footerComponent';
 import { DISHES } from "../shared/dishes";
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from './homeComponent';
+import Contact from './contactComponent';
+import { COMMENTS } from "../shared/comments";
+import { LEADERS } from "../shared/leaders";
+import { PROMOTIONS } from "../shared/promotions";
+
 
 class Main extends Component {
     constructor(props) {
@@ -13,13 +18,12 @@ class Main extends Component {
 
         this.state = {
             dishes: DISHES,
-            selectedDish: null
+            comments : COMMENTS,
+            leaders : LEADERS,
+            promotions : PROMOTIONS
         };
     }
 
-    onSelectDish(dishId) {
-        this.setState({ selectedDish: dishId });
-    }
 
     render() {
         return (
@@ -29,7 +33,9 @@ class Main extends Component {
                 <Switch>
                     <Route path='/home' component={() => {
                         return (
-                            <Home />
+                            <Home dish={this.state.dishes.filter((dish) => dish.featured)[0]}
+                            promotion={this.state.promotions.filter((promo) => promo.featured)[0]}
+                            leader={this.state.leaders.filter((leader) => leader.featured)[0]}/>
                         );
                     }} />
 
@@ -39,6 +45,11 @@ class Main extends Component {
                         );
                     }} />
                     
+                    <Route exact path='/contactus' component={()=>{
+                        return (
+                            <Contact />
+                        )
+                    }}/>
                     <Redirect to='/home' />
                 </Switch>
 
