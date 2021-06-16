@@ -5,9 +5,7 @@ function Menu(props) {
     const menu = props.dishes.map((dish) => {
         return (
             <div key={dish.id} className="col-12 col-md-5 m-2">
-                <CardView dish={dish} onClick={() => {
-                    props.onClick(dish.id)
-                }} />
+                <CardView dish={dish} />
             </div>
         );
     });

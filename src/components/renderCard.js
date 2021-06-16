@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import {
     Card,
     CardImg,
@@ -16,11 +17,12 @@ function CardView(props) {
                     <h2>{props.dish.name}</h2>
                 </CardTitle>
 
-                <Button
-                    onClick={() => props.onClick(props.dish.id)}
-                >
-                    Show Details
-                </Button>
+                <Link to={`/menu/${props.dish.id}`}>
+                    <Button>
+                        Show Details
+                    </Button>
+                </Link>
+                
             </CardBody>
         </Card>
     )

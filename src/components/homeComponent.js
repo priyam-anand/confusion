@@ -2,7 +2,7 @@ import React from 'react';
 
 function RenderCard(data) {
     return (
-        <div className="card ml-2">
+        <div className="card m-5">
             <img src={data.item.image} className="card-img-top" alt={data.item.name} />
             <div className="card-body">
                 <h5 className="card-title">{data.item.name}</h5>
