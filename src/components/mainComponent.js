@@ -10,7 +10,7 @@ import Contact from './contactComponent';
 import { COMMENTS } from "../shared/comments";
 import { LEADERS } from "../shared/leaders";
 import { PROMOTIONS } from "../shared/promotions";
-
+import About from './aboutComponent';
 
 class Main extends Component {
     constructor(props) {
@@ -58,6 +58,11 @@ class Main extends Component {
                             <Contact />
                         )
                     }} />
+                    <Route path='/aboutus' component={()=>{
+                        return(
+                            <About leaders={this.state.leaders}/>
+                        );
+                    }}/>
                     <Redirect to='/home' />
                 </Switch>
 
