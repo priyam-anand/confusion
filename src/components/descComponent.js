@@ -53,13 +53,3 @@ function Description(props) {
 
 }
 export default Description;
-// if (props.selectedDish == null) {
-    //     return (
-    //         <div></div>
-    //     )
-    // }
-    // else {
-        // return(
-        //     <Comment dish={props} />
-        // )
-    // }
