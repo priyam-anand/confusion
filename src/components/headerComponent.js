@@ -1,23 +1,33 @@
 import React, { Component } from 'react'
-import { Nav, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Jumbotron } from 'reactstrap';
+import { Nav, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Modal, Jumbotron, ModalHeader, ModalBody, Form, FormGroup, Input, Label } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 class Header extends Component {
 
     constructor(props) {
         super(props);
 
-        // this.toggleNav = this.toggleNav.bind(this);
         this.state = {
-            isNavOpen: false
+            isNavOpen: false,
+            isModalOpen: false
         };
+        this.toggleModal = this.toggleModal.bind(this);
+        this.handleLogIn = this.handleLogIn.bind(this);
     }
-
+    handleLogIn(event) {
+        this.toggleModal();
+        alert('Username is ' + this.username.value + " password is " + this.password.value + " Remember me is " + this.remember.checked);
+        event.preventDefault();
+    }
     toggleNav() {
         this.setState({
             isNavOpen: !this.state.isNavOpen
         });
     }
-
+    toggleModal() {
+        this.setState({
+            isModalOpen: !this.state.isModalOpen
+        });
+    }
     render() {
         return (
             <React.Fragment>
@@ -43,8 +53,48 @@ class Header extends Component {
                                 </NavItem>
                             </Nav>
                         </Collapse>
+                        <Nav className='ml-auto' navbar>
+                            <NavItem>
+                                <button className='ml-auto btn btn-secondary' onClick={this.toggleModal}>
+                                    Sign In
+                                </button>
+                            </NavItem>
+                        </Nav>
                     </div>
                 </Navbar>
+                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+                    <ModalHeader>
+                        Log In
+                    </ModalHeader>
+                    <ModalBody>
+                        <Form>
+                            <FormGroup>
+                                <Label htmlFor='username'>
+                                    Username
+                                </Label>
+                                <Input type='text' id='username' name='username'
+                                    innerRef={(input) => this.username = input}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor='password'>
+                                    Password
+                                </Label>
+                                <Input type='password' id='password' name='password' innerRef={(input) => this.password = input}/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Input className='ml-2' type='checkbox' name='remember' innerRef={(input) => this.remember = input}/>
+                                <Label className='ml-4'>
+                                    Remember Me
+                                </Label>
+
+                            </FormGroup>
+                            <button type='submit' value='submit' className='btn btn-primary' onClick={this.handleLogIn}>
+                                LogIn
+                            </button>
+                        </Form>
+                    </ModalBody>
+                </Modal>
                 <Jumbotron className="custom-jumbotron">
                     <div className="container">
                         <div className="row row-header">
