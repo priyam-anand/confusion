@@ -1,40 +1,81 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 class Contact extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
-        this.state={
-            firstname : '',
-            lastname : '',
-            telnum : '',
-            email : '',
-            agree : false,
-            contactType : 'Tel.',
-            message : ''
+        this.state = {
+            firstname: '',
+            lastname: '',
+            telnum: '',
+            email: '',
+            agree: false,
+            contactType: 'Tel.',
+            message: '',
+            touched: {
+                firstname: false,
+                lastname: false,
+                telnum: false,
+                email: false
+            }
         }
-        this.handleSubmit=this.handleSubmit.bind(this);
-        this.handleInputChange=this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    handleInputChange(event){
+    handleBlur = (field) => (evt) => {
+        this.setState({
+            touched: { ...this.state.touched, [field]: true }
+        });
+    }
+
+    handleInputChange(event) {
         const target = event.target;
-        const value = target.type === 'checkbox'?target.checked:target.value;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
         this.setState({
-            [name] : value
+            [name]: value
         })
     }
 
-    handleSubmit(event){
-        console.log("current state = "+JSON.stringify(this.state));
+    handleSubmit(event) {
+        console.log("current state = " + JSON.stringify(this.state));
         alert("state change, check log");
         event.preventDefault();
     }
 
+    validate(firstname, lastname, telnum, email) {
+        const errors = {
+            firstname: '',
+            lastname: '',
+            telnum: '',
+            email: ''
+        };
+
+        if (this.state.touched.firstname && firstname.length < 3)
+            errors.firstname = 'First Name should be >= 3 characters';
+        else if (this.state.touched.firstname && firstname.length > 10)
+            errors.firstname = 'First Name should be <= 10 characters';
+
+        if (this.state.touched.lastname && lastname.length < 3)
+            errors.lastname = 'Last Name should be >= 3 characters';
+        else if (this.state.touched.lastname && lastname.length > 10)
+            errors.lastname = 'Last Name should be <= 10 characters';
+
+        const reg = /^\d+$/;
+        if (this.state.touched.telnum && !reg.test(telnum))
+            errors.telnum = 'Tel. Number should contain only numbers';
+
+        if (this.state.touched.email && email.split('').filter(x => x === '@').length !== 1)
+            errors.email = 'Email should contain a @';
+
+        return errors;
+    }
+
     render() {
+        const errors = this.validate(this.state.firstname, this.state.lastname, this.state.telnum, this.state.email);
         return (
             <div className="container">
                 <div className="row row-content">
@@ -70,56 +111,65 @@ class Contact extends Component {
 
                 <Form onSubmit={this.handleSubmit}>
 
-                    <FormGroup>
-                        <div className='container row'>
-                            <Label className='mt-2 col-12 col-md-2' htmlFor="firstname">First Name</Label>
-                            <Input className='col-12 col-md-8' type="text" name="firstname" id="firstname" placeholder="First Name" value={this.state.firstname} onChange={this.handleInputChange}/>
-                        </div>
+                    <FormGroup className='container row'>
+                        <Label className='mt-2 col-12 col-md-2' htmlFor="firstname">
+                            First Name
+                        </Label>
+                        <Input className='col-12 col-md-8' type="text" name="firstname" id="firstname" placeholder="First Name" 
+                        value={this.state.firstname}
+                        valid={errors.firstname === ''}
+                        invalid={errors.firstname !== ''}
+                        onBlur={this.handleBlur('firstname')} onChange={this.handleInputChange} />
+                        <FormFeedback>{errors.firstname}</FormFeedback>
                     </FormGroup>
-                    <FormGroup>
-                        <div className='container row'>
-                            <Label className='mt-2 col-12 col-md-2' htmlFor="lastname">Last Name</Label>
-                            <Input className='col-12 col-md-8' type="text" name="lastname" id="lastname" placeholder="Last Name" value={this.state.lastname}
-                            onChange={this.handleInputChange} />
-                        </div>
+                    <FormGroup className='container row'>
+                        <Label className='mt-2 col-12 col-md-2' htmlFor="lastname">Last Name</Label>
+                        <Input className='col-12 col-md-8' type="text" name="lastname" id="lastname" placeholder="Last Name" value={this.state.lastname}
+                        valid={errors.lastname === ''}
+                        invalid={errors.lastname !== ''}
+                        onBlur={this.handleBlur('lastname')}
+                        onChange={this.handleInputChange} />
+                        <FormFeedback>{errors.lastname}</FormFeedback>
                     </FormGroup>
-                    <FormGroup>
-                        <div className='container row'>
-                            <Label className='mt-2 col-12 col-md-2' htmlFor="telnum">Contact Number</Label>
-                            <Input className='col-12 col-md-8' type="tel" name="telnum" id="telnum" placeholder="Telephone Number" value={this.state.telnum} 
-                            onChange={this.handleInputChange}/>
-                        </div>
+                    <FormGroup className='container row'>
+                        <Label className='mt-2 col-12 col-md-2' htmlFor="telnum">Contact Number</Label>
+                        <Input className='col-12 col-md-8' type="tel" name="telnum" id="telnum" placeholder="Telephone Number" value={this.state.telnum}
+                        valid={errors.telnum === ''}
+                        invalid={errors.telnum !== ''}
+                        onBlur={this.handleBlur('telnum')}
+                        onChange={this.handleInputChange} />
+                        <FormFeedback>{errors.telnum}</FormFeedback>
                     </FormGroup>
-                    <FormGroup>
-                        <div className='container row'>
-                            <Label className='mt-2 col-12 col-md-2' htmlFor="email">Email address</Label>
-                            <Input className='col-12 col-md-8' type="email" name="email" id="email" placeholder="Email address" value={this.state.email} 
-                            onChange={this.handleInputChange}/>
-                        </div>
+                    <FormGroup className='container row'>
+                        <Label className='mt-2 col-12 col-md-2' htmlFor="email">Email address</Label>
+                        <Input className='col-12 col-md-8' type="email" name="email" id="email" placeholder="Email address" value={this.state.email}
+                        valid={errors.email === ''}
+                        invalid={errors.email !== ''}
+                        onBlur={this.handleBlur('email')}
+                        onChange={this.handleInputChange} />
+                        <FormFeedback>{errors.email}</FormFeedback>
                     </FormGroup>
                     <FormGroup className='row container'>
                         <div className='col-12 col-md-4 ml-5'>
                             <Input type='checkbox' name='agree' checked={this.state.agree}
-                            onChange={this.handleInputChange}/>
+                                onChange={this.handleInputChange} />
                             <strong>
                                 May we contact you ?
                             </strong>
                         </div>
                         <div className='col-12 col-md-4'>
-                            <Input type='select' name='contactType' 
-                            value={this.state.contactType}
-                            onChange={this.handleInputChange}>
+                            <Input type='select' name='contactType'
+                                value={this.state.contactType}
+                                onChange={this.handleInputChange}>
                                 <option>Telephone</option>
                                 <option>Email</option>
-                            </Input>                            
+                            </Input>
                         </div>
                     </FormGroup>
-                    <FormGroup>
-                        <div className='container row'>
-                            <Label className='mt-2 col-12 col-md-2' htmlFor="message">Feedback</Label>
-                            <Input className='col-12 col-md-8' type="textarea" name="message" id="message" placeholder="Your Feedback" value={this.state.message} onChange={this.handleInputChange}
-                            />
-                        </div>
+                    <FormGroup className='container row'>
+                        <Label className='mt-2 col-12 col-md-2' htmlFor="message">Feedback</Label>
+                        <Input className='col-12 col-md-8' type="textarea" name="message" id="message" placeholder="Your Feedback" value={this.state.message} onChange={this.handleInputChange}
+                        />
                     </FormGroup>
                     <FormGroup className='container row'>
                         <div className='col-5'>
