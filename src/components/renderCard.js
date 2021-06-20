@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 
 function CardView(props) {
+
     return (
         <Card>
             <CardImg src={props.dish.image} alt={props.dish.name} />
