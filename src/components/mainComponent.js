@@ -7,6 +7,9 @@ import Home from './homeComponent';
 import Contact from './contactComponent';
 import About from './aboutComponent';
 import { useSelector, useDispatch } from "react-redux";
+import { fetchDishes } from "../redux/action";
+import { useEffect } from "react";
+
 
 const Main = () => {
 
@@ -16,11 +19,17 @@ const Main = () => {
     const statePromotion = useSelector((state) => state.updatePromotion);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(fetchDishes());
+    }, []);
+
     const descWithComments = ({ match }) => {
         return (
             <Description
-                dish={stateDish.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
+                dish={stateDish.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
                 comments={stateComment.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
+                isLoading={stateDish.dishes.isLoading}
+                errMess={stateDish.dishes.errMess}
                 dispatch={dispatch}
             />
         );
@@ -33,7 +42,9 @@ const Main = () => {
             <Switch>
                 <Route path='/home' component={() => {
                     return (
-                        <Home dish={stateDish.filter((dish) => dish.featured)[0]}
+                        <Home dish={stateDish.dishes.filter((dish) => dish.featured)[0]}
+                            dishesLoading={stateDish.isLoading}
+                            dishesErrMess={stateDish.errMess}
                             promotion={statePromotion.filter((promo) => promo.featured)[0]}
                             leader={stateLeader.filter((leader) => leader.featured)[0]} />
                     );

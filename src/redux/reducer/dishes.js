@@ -1,10 +1,21 @@
-import {DISHES} from '../../shared/dishes';
+const updateDish = (state = {
+    isLoading: true,
+    errMess: null,
+    dishes: []
+}, action) => {
+    switch (action.type) {
+        case 'ADD_DISHES':
+            return { ...state, isLoading: false, errMess: null, dishes: action.payload };
 
-const initialState =  DISHES
+        case 'DISHES_LOADING':
+            return { ...state, isLoading: true, errMess: null, dishes: [] }
 
+        case 'DISHES_FAILED':
+            return { ...state, isLoading: false, errMess: action.payload };
 
-const updateDish = (state = initialState , action) =>{
-    return state;
-}
+        default:
+            return state;
+    }
+};
 
 export default updateDish
