@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, Modal,ModalBody,ModalHeader,Row,Col,Label} from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
-
+import { addComment } from '../redux/action';
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 
@@ -23,7 +23,9 @@ class Description extends Component {
         });
     }
     handleSubmit(values){
-        alert('current state is '+ JSON.stringify(values));
+        this.toggleModal();
+        this.props.dispatch(addComment(this.props.dish.id,values.rating,values.name,values.comment));
+
     }
     render() {
         const comment = this.props.comments.map((comm) => {
