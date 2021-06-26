@@ -30,6 +30,7 @@ class Description extends Component {
 
     }
     render() {
+        console.log(this.props);
         const comment = this.props.comments.map((comm) => {
             return (
                 <div key={comm.id}>
@@ -99,6 +100,7 @@ class Description extends Component {
                                         <Control.select model='.rating' id='rating'
                                             name='rating'
                                             className='form-control'
+                                            defaultValue='5'
                                         >
                                             <option>5</option>
                                             <option>4</option>

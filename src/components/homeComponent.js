@@ -3,7 +3,6 @@ import { Loading } from './loadingComponent';
 
 function RenderCard({ item, isLoading, errMess }) {
 
-    console.log(isLoading);
     if (isLoading) {
         return (
             <Loading />
@@ -29,7 +28,6 @@ function RenderCard({ item, isLoading, errMess }) {
 
 function Home(props) {
 
-    console.log(props)
     return (
         <div className='card-group'>
             <RenderCard item={props.dish} isLoading={props.dishesLoading} errMess={props.dishesErrMess} />

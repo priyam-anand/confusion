@@ -57,7 +57,7 @@ const Main = () => {
                 <Route path='/menu/:dishId' component={descWithComments} />
                 <Route exact path='/contactus' component={() => {
                     return (
-                        <Contact />
+                        <Contact dispatch={dispatch}/>
                     )
                 }} />
                 <Route path='/aboutus' component={() => {
