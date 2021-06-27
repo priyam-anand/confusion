@@ -1,16 +1,20 @@
-import {COMMENTS} from '../../shared/comments';
 
-const initialState =  COMMENTS
-
-
-const updateComment = (state = initialState , action) =>{
+const updateComment = (state = {
+    errMess : null,
+    comments : []
+} , action) =>{
     switch (action.type) {
+        case 'ADD_COMMENTS':
+            return { ...state,isLoading:false, errMess: null, comments: action.payload };
+        case 'DISHES_FAILED':
+            return { ...state, isLoading: false, errMess: action.payload , comments : []};
+
         case 'ADD_COMMENT':
             var comm = action.payload;
-            comm.id = state.length;
+            comm.id = state.comments.length;
             comm.date = new Date().toISOString();
             console.log("Comment: ", comm);
-            return state.concat(comm);
+            return {...state , comments : state.comments.concat(comm)};
         default:
             return state;
     }

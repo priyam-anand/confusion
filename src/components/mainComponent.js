@@ -7,7 +7,7 @@ import Home from './homeComponent';
 import Contact from './contactComponent';
 import About from './aboutComponent';
 import { useSelector, useDispatch } from "react-redux";
-import { fetchDishes } from "../redux/action";
+import { fetchDishes,fetchComments,fetchPromos } from "../redux/action/index";
 import { useEffect } from "react";
 
 
@@ -21,15 +21,19 @@ const Main = () => {
 
     useEffect(() => {
         dispatch(fetchDishes());
+        dispatch(fetchComments());
+        dispatch(fetchPromos());
     }, []);
 
     const descWithComments = ({ match }) => {
         return (
             <Description
                 dish={stateDish.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
-                comments={stateComment.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
-                isLoading={stateDish.dishes.isLoading}
-                errMess={stateDish.dishes.errMess}
+                comments={stateComment.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
+                isLoading={stateDish.isLoading}
+                errMess={stateDish.errMess}
+                commentsIsLoading={stateComment.isLoading}
+                commentsErrMess={stateComment.errMess}
                 dispatch={dispatch}
             />
         );
@@ -45,7 +49,9 @@ const Main = () => {
                         <Home dish={stateDish.dishes.filter((dish) => dish.featured)[0]}
                             dishesLoading={stateDish.isLoading}
                             dishesErrMess={stateDish.errMess}
-                            promotion={statePromotion.filter((promo) => promo.featured)[0]}
+                            promotion={statePromotion.promotions.filter((promo) => promo.featured)[0]}
+                            promosLoading={statePromotion.isLoading}
+                            promosErrMess={statePromotion.errMess}
                             leader={stateLeader.filter((leader) => leader.featured)[0]} />
                     );
                 }} />

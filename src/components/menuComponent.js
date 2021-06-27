@@ -1,14 +1,36 @@
 import React from "react";
-import CardView from './renderCard';
 import {Loading} from './loadingComponent'
+import {baseUrl} from '../shared/baseUrl';
+import { Link } from 'react-router-dom';
+import {
+    Card,
+    CardImg,
+    CardBody,
+    CardTitle,
+    Button,
+} from "reactstrap";
+
+function CardView(props) {
+    return (
+        <Card>
+            <CardImg src={baseUrl+props.dish.image} alt={props.dish.name} />
+            <CardBody>
+                <CardTitle>
+                    <h2>{props.dish.name}</h2>
+                </CardTitle>
+
+                <Link to={`/menu/${props.dish.id}`}>
+                    <Button>
+                        Show Details
+                    </Button>
+                </Link>
+                
+            </CardBody>
+        </Card>
+    )
+}
+
 function Menu(props) {
-    const menu = props.dishes.dishes.map((dish) => {
-        return (
-            <div key={dish.id} className="col-12 col-md-5 m-2">
-                <CardView dish={dish} />
-            </div>
-        );
-    });
     if (props.dishes.isLoading) {
         return(
             <div className="container">
@@ -30,6 +52,13 @@ function Menu(props) {
         );
     }
     else{
+        const menu = props.dishes.dishes.map((dish) => {
+            return (
+                <div key={dish.id} className="col-12 col-md-5 m-2">
+                    <CardView dish={dish} />
+                </div>
+            );
+        });
         return (
         <div className="container">
             <div className="row">{menu}</div>

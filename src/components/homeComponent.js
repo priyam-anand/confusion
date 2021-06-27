@@ -1,5 +1,6 @@
 import React from 'react';
 import { Loading } from './loadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 function RenderCard({ item, isLoading, errMess }) {
 
@@ -16,7 +17,7 @@ function RenderCard({ item, isLoading, errMess }) {
     else {
         return (
             <div className="card m-5">
-                <img src={item.image} className="card-img-top" alt={item.name} />
+                <img src={baseUrl + item.image} className="card-img-top" alt={item.name} />
                 <div className="card-body">
                     <h5 className="card-title">{item.name}</h5>
                     <p className="card-text">{item.description}</p>
@@ -31,7 +32,8 @@ function Home(props) {
     return (
         <div className='card-group'>
             <RenderCard item={props.dish} isLoading={props.dishesLoading} errMess={props.dishesErrMess} />
-            <RenderCard item={props.promotion} />
+            <RenderCard item={props.promotion} isLoading={props.promosLoading}
+                errMess={props.promosErrMess} />
             <RenderCard item={props.leader} />
         </div>
     );

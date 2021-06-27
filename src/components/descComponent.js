@@ -3,6 +3,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle, Modal, ModalBody, ModalHe
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { addComment } from '../redux/action';
 import { Loading } from './loadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
@@ -134,7 +135,7 @@ class Description extends Component {
                     <div className="row">
                         <div key={this.props.dish.id} className="col-12 col-md-5 m-2">
                             <Card>
-                                <CardImg src={this.props.dish.image} alt={this.props.dish.name} />
+                                <CardImg src={baseUrl + this.props.dish.image} alt={this.props.dish.name} />
                                 <CardBody>
                                     <CardTitle>
                                         <h2>{this.props.dish.name}</h2>
