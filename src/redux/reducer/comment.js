@@ -11,8 +11,6 @@ const updateComment = (state = {
 
         case 'ADD_COMMENT':
             var comm = action.payload;
-            comm.id = state.comments.length;
-            comm.date = new Date().toISOString();
             console.log("Comment: ", comm);
             return {...state , comments : state.comments.concat(comm)};
         default:

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle, Modal, ModalBody, ModalHeader, Row, Col, Label } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
-import { addComment } from '../redux/action';
+import { postComment } from '../redux/action';
 import { Loading } from './loadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 
@@ -27,7 +27,7 @@ class Description extends Component {
     }
     handleSubmit(values) {
         this.toggleModal();
-        this.props.dispatch(addComment(this.props.dish.id, values.rating, values.name, values.comment));
+        this.props.dispatch(postComment(this.props.dish.id, values.rating, values.name, values.comment));
 
     }
     render() {
